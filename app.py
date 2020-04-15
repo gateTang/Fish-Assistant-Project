@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 from flask import Flask, request, jsonify
+from flask_mqtt import Mqtt
 
 app = Flask(__name__)
 
