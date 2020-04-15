@@ -1,5 +1,12 @@
 # app.py
+import matplotlib.pyplot as plt
+import firebase_admin
+import numpy
+from firebase_admin import credentials
+from firebase_admin import firestore
+
 from flask import Flask, request, jsonify
+
 app = Flask(__name__)
 
 @app.route('/getmsg/', methods=['GET'])
