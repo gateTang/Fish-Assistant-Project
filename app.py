@@ -32,18 +32,18 @@ def respond():
     return json.dumps(a)
 
 @mqtt.on_connect()
-    def handle_connect(client, userdata, flags, rc):
-        mqtt.subscribe('gate.tang@gmail.com/LED')
+def handle_connect(client, userdata, flags, rc):
+    mqtt.subscribe('gate.tang@gmail.com/LED')
 
 @mqtt.on_message()
-    def handle_mqtt_message(client, userdata, message):
-        data = dict(
-            topic=message.topic,
-            payload=message.payload.decode()
-            )
-            numkey=len(doc_ref.get().to_dict())
-            doc_ref.update({
-                str(numkey): float(data['payload'])
+def handle_mqtt_message(client, userdata, message):
+    data = dict(
+        topic=message.topic,
+        payload=message.payload.decode()
+        )
+    numkey=len(doc_ref.get().to_dict())
+    doc_ref.update({
+        str(numkey): float(data['payload'])
             })
 
 if __name__ == '__main__':
