@@ -17,15 +17,15 @@ db = firestore.client()
 
 doc_ref = db.collection(u'users').document(u'tempData')
 
-appM = Flask(__name__)
-appM.config['MQTT_BROKER_URL'] = 'maqiatto.com'
-appM.config['MQTT_BROKER_PORT'] = 1883
-appM.config['MQTT_USERNAME'] = 'gate.tang@gmail.com'
-appM.config['MQTT_PASSWORD'] = 'letmein'
-appM.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
-mqtt = Mqtt(appM)
+app = Flask(__name__)
+app.config['MQTT_BROKER_URL'] = 'maqiatto.com'
+app.config['MQTT_BROKER_PORT'] = 1883
+app.config['MQTT_USERNAME'] = 'gate.tang@gmail.com'
+app.config['MQTT_PASSWORD'] = 'letmein'
+app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
+mqtt = Mqtt(app)
 
-@appM.route('/readdata', methods=['GET']) #path of link. 
+@app.route('/readdata', methods=['GET']) #path of link. 
 def respond():
     doc = doc_ref.get()
     a = doc.to_dict()
@@ -48,4 +48,4 @@ def handle_mqtt_message(client, userdata, message):
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
-    appM.run(threaded=True, port=5000)
+    app.run(threaded=True, port=5000)
