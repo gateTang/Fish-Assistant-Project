@@ -1,12 +1,10 @@
 # app.py
 import matplotlib.pyplot as plt
 import firebase_admin
-import numpy
 from firebase_admin import credentials
 from firebase_admin import firestore
 
 from flask import Flask, request, jsonify
-from flask import Flask
 from flask_mqtt import Mqtt
 import json
 
@@ -29,6 +27,12 @@ mqtt = Mqtt(app)
 def respond():
     doc = doc_ref.get()
     a = doc.to_dict()
+    lists = sorted(a.items())
+    x, y = zip(*lists)
+    plt.xlabel("Time (5s)")
+    plt.ylabel("Temperature (*C")
+    plt.plot(x, y)
+    plt.show()
     return json.dumps(a)
 
 @mqtt.on_connect()
