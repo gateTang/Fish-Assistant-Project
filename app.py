@@ -1,5 +1,4 @@
 # app.py
-import matplotlib.pyplot as plt
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -11,7 +10,10 @@ from datetime import datetime
 import io
 import urllib, base64
 import requests
+import matplotlib
 import matplotlib.pyplot as plt
+
+matplotlib.use('Agg')
 
 cred = credentials.Certificate('fish-key.json')
 firebase_admin.initialize_app(cred)
@@ -27,6 +29,11 @@ app.config['MQTT_USERNAME'] = 'gate.tang@gmail.com'
 app.config['MQTT_PASSWORD'] = 'letmein'
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 mqtt = Mqtt(app)
+
+x = datetime.now().day
+if (current_date != x):
+    doc_ref.set({})
+    current_date = x
 
 @app.route('/readdata', methods=['GET']) #path of link. 
 def respond():
@@ -60,6 +67,7 @@ def graph():
         dataarray[int(key)] = data[key]
 
 
+    plt.clf()
     z = datetime.now()
     date = z.strftime("%B"+"%d"+"-%y")
     plt.xlabel("Time (5s)")
