@@ -54,9 +54,11 @@ def graph():
     response = requests.get("https://fish-assisstant.herokuapp.com/readdata")
     data = response.json()
 
-    lists = sorted(data.items()) # sorted by key, return a list of tuples
+    dataarray = [0]*len(data)
 
-    x, y = zip(*lists) # unpack a list of pairs into two tuples
+    for key in data:
+        dataarray[int(key)] = data[key]
+
 
     z = datetime.now()
     date = z.strftime("%B"+"%d"+"-%y")
@@ -65,7 +67,7 @@ def graph():
     plt.title("Aquarium Temp Over Time - "+date)
     plt.grid(True)
     plt.savefig(date+'waterTemp.png')
-    plt.plot(x, y)
+    plt.plot(dataarray)
     fig = plt.gcf()
     
     buf = io.BytesIO()
