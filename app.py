@@ -4,9 +4,14 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_mqtt import Mqtt
 import json
+from datetime import datetime
+import io
+import urllib, base64
+import requests
+import matplotlib.pyplot as plt
 
 cred = credentials.Certificate('fish-key.json')
 firebase_admin.initialize_app(cred)
@@ -27,12 +32,6 @@ mqtt = Mqtt(app)
 def respond():
     doc = doc_ref.get()
     a = doc.to_dict()
-    lists = sorted(a.items())
-    x, y = zip(*lists)
-    plt.xlabel("Time (5s)")
-    plt.ylabel("Temperature (*C")
-    plt.plot(x, y)
-    plt.show()
     return json.dumps(a)
 
 @mqtt.on_connect()
@@ -49,6 +48,33 @@ def handle_mqtt_message(client, userdata, message):
     doc_ref.update({
         str(numkey): float(data['payload'])
             })
+
+@app.route('/graph', methods=['GET'])
+def graph():
+    response = requests.get("https://fish-assisstant.herokuapp.com/readdata")
+    data = response.json()
+
+    lists = sorted(data.items()) # sorted by key, return a list of tuples
+
+    x, y = zip(*lists) # unpack a list of pairs into two tuples
+
+    z = datetime.now()
+    date = z.strftime("%B"+"%d"+"-%y")
+    plt.xlabel("Time (5s)")
+    plt.ylabel("Temperature (*C)")
+    plt.title("Aquarium Temp Over Time - "+date)
+    plt.grid(True)
+    plt.savefig(date+'waterTemp.png')
+    plt.plot(x, y)
+    fig = plt.gcf()
+    
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    url = urllib.parse.quote(string)
+
+    return render_template("home.html",data=url)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
