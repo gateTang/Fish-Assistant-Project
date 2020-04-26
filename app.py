@@ -31,9 +31,10 @@ app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 mqtt = Mqtt(app)
 
 x = datetime.now().day
-if (current_date != x):
+today = datetime.today
+if (today != x):
     doc_ref.set({})
-    current_date = x
+    today = x
 
 @app.route('/readdata', methods=['GET']) #path of link. 
 def respond():
@@ -64,7 +65,7 @@ def graph():
     dataarray = [0]*len(data)
 
     for key in data:
-        dataarray[int(key)] = data[key]
+        dataarray[int(key)] = data[key] #Orders converted array into order
 
 
     plt.clf()
