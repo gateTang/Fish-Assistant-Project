@@ -31,7 +31,7 @@ app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 mqtt = Mqtt(app)
 
 x = datetime.now().day
-today = datetime.today.day
+today = datetime.today().day
 if (today != x):
     doc_ref.set({})
     today = x
