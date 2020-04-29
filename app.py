@@ -87,6 +87,19 @@ def graph():
 
     return render_template("home.html",data=url)
 
+@app.route('/feed', methods = ['POST', 'GET'])
+def feed():
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        mqtt.publish('gate.tang@gmail.com/food', payload = amount, qos=0, retain=False)
+        print(amount) # for debugging
+        return '<h1>Submitted Form: amount is {} gram(s).</h>'. format(amount)
+
+    return '''<form method = "POST">
+    Amount (g): <input type = "number" name="amount">
+    <input type = "submit">
+    </form> '''
+
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
     app.run(threaded=True, port=5000)
