@@ -93,7 +93,10 @@ def feed():
         amount = request.form.get('amount')
         mqtt.publish('gate.tang@gmail.com/food', payload = amount, qos=0, retain=False)
         print(amount) # for debugging
-        return '<h1>Submitted Form: amount is {} gram(s).</h>'. format(amount)
+        return '''<h1>Submitted Form: amount is {} gram(s).</h>
+        <form>
+        <button formaction="https://fish-assisstant.herokuapp.com/feed">Feed More!</button>
+        </form>'''. format(amount)
 
     return '''<form method = "POST">
     Amount (g): <input type = "number" name="amount">
