@@ -32,9 +32,6 @@ app.config['MQTT_PASSWORD'] = 'letmein'
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 mqtt = Mqtt(app)
 
-def job():
-    doc_ref.set({})
-
 @app.route('/readdata', methods=['GET']) #path of link. 
 def respond():
     doc = doc_ref.get()
@@ -44,12 +41,6 @@ def respond():
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
     mqtt.subscribe('gate.tang@gmail.com/LED')
-
-    schedule.every().day.at("00:00").do(job)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
