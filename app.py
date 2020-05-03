@@ -8,7 +8,6 @@ from flask_mqtt import Mqtt
 import json
 from datetime import datetime
 import io
-import time
 import urllib, base64
 import requests
 import matplotlib
@@ -22,6 +21,10 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 doc_ref = db.collection(u'users').document(u'tempData')
+date_ref = db.collection(u'users').document (u'date')
+
+date = datetime.now().day
+date_ref.set({u'date': date})
 
 app = Flask(__name__)
 app.config['MQTT_BROKER_URL'] = 'maqiatto.com'
@@ -44,11 +47,12 @@ def handle_connect(client, userdata, flags, rc):
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
     x = datetime.now().day
-    time.sleep(5)
-    currentdate = datetime.now().day
-    if (currentdate != x):
+    dateD = date_ref.get()
+    dateC = dateD.to_dict()
+    previous = dateC["date"]
+    if (previous != x):
         doc_ref.set({})
-        currentdate = x
+        previous = x
 
     data = dict(
         topic=message.topic,
@@ -102,6 +106,22 @@ def feed():
 
     return '''<form method = "POST">
     Amount (g): <input type = "number" name="amount">
+    <input type = "submit">
+    </form> '''
+
+@app.route('/water', methods = ['POST', 'GET'])
+def water():
+    if request.method == 'POST':
+        waterState = request.form.get('waterState')
+        mqtt.publish('gate.tang@gmail.com/water', payload = waterState, qos=0, retain=False)
+        print(waterState) # for debugging
+        return '''<h1>Submitted Form {} | (0 means NO; 1 means YES).</h>
+        <form>
+        <button formaction="https://fish-assisstant.herokuapp.com/water">Change?</button>
+        </form>'''. format(waterState)
+
+    return '''<form method = "POST">
+    Water (0 means NO; 1 means YES)? <input type = "range" name="waterState" min="0" max="1">
     <input type = "submit">
     </form> '''
 
