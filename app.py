@@ -7,9 +7,8 @@ from flask import Flask, request, jsonify, render_template
 from flask_mqtt import Mqtt
 import json
 from datetime import datetime
-import time
-import schedule
 import io
+import time
 import urllib, base64
 import requests
 import matplotlib
@@ -44,6 +43,13 @@ def handle_connect(client, userdata, flags, rc):
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
+    x = datetime.now().day
+    time.sleep(5)
+    currentdate = datetime.now().day
+    if (currentdate != x):
+        doc_ref.set({})
+        currentdate = x
+
     data = dict(
         topic=message.topic,
         payload=message.payload.decode()
