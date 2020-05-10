@@ -2,11 +2,63 @@
 <html lang="en" dir="ltr">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .container{
+                position: relative;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                background: white;
+                border-style: solid;
+                border-color: black;
+                border-radius: 5px;
+                margin: 30px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+                transition: all 0.3s ease-in-out;
+            }
+            .container::after{
+                content: '';
+                position: absolute;
+                z-index: -1;
+                width: auto;
+                height: auto;
+                opacity: 0;
+                border-radius: 5px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                transition: opacity 0.3s ease-in-out;
+            }
+            .container:hover{
+                transform: scale(1.05, 1.05);
+            }
+            .container:hover::after{
+                opacity: 1;
+            }
+            .text-block{
+                position:relative;
+                display: block;
+                background-color: transparent;
+                color: black;
+                padding: 50px;
+            }
+            .graph{
+                position: relative;
+                padding: 30px;
+                text-align: right;
+            }
+        </style>
         <title>
             Fish Assistant Graph
         </title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     </head>
     <body>
-        <img src="data:image/png;base64,{{ data }}" alt="" >
+    <div class="container" style="float: left">
+        <img src="https://drive.google.com/uc?export=view&id=1pL61tXp_fLX3c1o7xzTpmUFSmsFqHc1-" alt="Temp Symbol" style="width:auto; padding-right: 60px; padding-left: 60px; padding-top: 50px;">
+        <div class="text-block">
+            <h2>Water Temperature: {{ current_amount }}&#8451;</h2>
+        </div>
+    </div>
+    <div class="graph" style="float: right">
+        <img src="data:image/png;base64,{{ data }}" alt="" style="float: right">
+        <!--<canvas id="myChart" width="680" height="480"></canvas>-->
+    </div>
     </body>
 </html>

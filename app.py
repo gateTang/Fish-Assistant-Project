@@ -52,8 +52,14 @@ def handle_mqtt_message(client, userdata, message):
     previous = dateC["date"]
     if (previous != x):
         doc_ref.set({})
+        thislist=[]
         previous = x
 
+    #updates time stamps every hour E.g. 1AM, 2AM everytime a MQTT Message comes in. 
+    time = datetime.now().strftime("%I%p")
+    thislist = []
+    thislist.append(time)
+    
     data = dict(
         topic=message.topic,
         payload=message.payload.decode()
@@ -62,6 +68,8 @@ def handle_mqtt_message(client, userdata, message):
     doc_ref.update({
         str(numkey): float(data['payload'])
             })
+
+    return render_template("home.html",time=thislist)
 
 @app.route('/graph', methods=['GET'])
 def graph():
@@ -73,7 +81,6 @@ def graph():
     for key in data:
         dataarray[int(key)] = data[key] #Orders converted array into order
 
-
     plt.clf()
     z = datetime.now()
     date = z.strftime("%B"+"%d"+"-%y")
@@ -84,14 +91,17 @@ def graph():
     plt.savefig(date+'waterTemp.png')
     plt.plot(dataarray)
     fig = plt.gcf()
-    
+
+    amount = len(dataarray)-1
+    current_amount = (dataarray[amount])
+
     buf = io.BytesIO()
     fig.savefig(buf, format='png')
     buf.seek(0)
     string = base64.b64encode(buf.read())
     url = urllib.parse.quote(string)
 
-    return render_template("home.html",data=url)
+    return render_template("home.html",data=url,current_amount=current_amount)
 
 @app.route('/feed', methods = ['POST', 'GET'])
 def feed():
