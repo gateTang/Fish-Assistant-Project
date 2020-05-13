@@ -40,9 +40,21 @@ def respond():
     a = doc.to_dict()
     return json.dumps(a)
 
+@app.route('/',methods=['GET'])
+def hub():
+    return render_template("hub_2.html")
+
+
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
     mqtt.subscribe('gate.tang@gmail.com/LED')
+
+def time():
+    #updates time stamps every hour E.g. 1AM, 2AM everytime a MQTT Message comes in. 
+    time = datetime.now().strftime("%I%p")
+    thislist = []
+    thislist.append(time)
+    return thislist
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
@@ -54,11 +66,6 @@ def handle_mqtt_message(client, userdata, message):
         doc_ref.set({})
         thislist=[]
         previous = x
-
-    #updates time stamps every hour E.g. 1AM, 2AM everytime a MQTT Message comes in. 
-    time = datetime.now().strftime("%I%p")
-    thislist = []
-    thislist.append(time)
     
     data = dict(
         topic=message.topic,
@@ -69,7 +76,7 @@ def handle_mqtt_message(client, userdata, message):
         str(numkey): float(data['payload'])
             })
 
-    return render_template("home.html",time=thislist)
+    return render_template("home.html",thislist=thislist)
 
 @app.route('/graph', methods=['GET'])
 def graph():
@@ -95,13 +102,18 @@ def graph():
     amount = len(dataarray)-1
     current_amount = (dataarray[amount])
 
+    thislist = time()
+
     buf = io.BytesIO()
     fig.savefig(buf, format='png')
     buf.seek(0)
     string = base64.b64encode(buf.read())
     url = urllib.parse.quote(string)
+    
+    Dict = { i : dataarray[i] for i in range(0, len(dataarray) ) }
+    xy=Dict.items()
 
-    return render_template("home.html",data=url,current_amount=current_amount)
+    return render_template("home.html",data=url,current_amount=current_amount,history=dataarray,time=thislist,xy=xy)
 
 @app.route('/feed', methods = ['POST', 'GET'])
 def feed():

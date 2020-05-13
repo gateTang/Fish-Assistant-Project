@@ -7,6 +7,7 @@
                 position: relative;
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                 background: white;
+                text-align: center;
                 border-style: solid;
                 border-color: black;
                 border-radius: 5px;
@@ -27,6 +28,7 @@
             }
             .container:hover{
                 transform: scale(1.05, 1.05);
+                background-color:rgb(197, 197, 197);
             }
             .container:hover::after{
                 opacity: 1;
@@ -43,15 +45,44 @@
                 padding: 30px;
                 text-align: right;
             }
+        /*Top Navigation Bar*/
+        .topnav{
+        overflow: hidden;
+        position: absolute;
+        background-color: rgb(167, 215, 247);
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .topnav a {
+            float: left;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .topnav a:hover {
+            background-color: #ddd;
+        }
+        .topnav a.active {
+            background-color: rgb(40, 205, 255);
+            color: white;
+        }
+
         </style>
         <title>
-            Fish Assistant Graph
+            Graph - Fish Assistant
         </title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     </head>
     <body>
-    <div class="container" style="float: left">
-        <img src="https://drive.google.com/uc?export=view&id=1pL61tXp_fLX3c1o7xzTpmUFSmsFqHc1-" alt="Temp Symbol" style="width:auto; padding-right: 60px; padding-left: 60px; padding-top: 50px;">
+    <div class="topnav">
+        <a href="/">Hub</a>
+        <a class="active"href="graph">Graph</a>
+        <a href="feed">Feed</a>
+        <a href="water">Water</a>
+    </div>
+    <br><br><div class="container" style="float: left">
+        <img src="https://drive.google.com/uc?export=view&id=1_4AXqNVkFRxkqi-T7SWY0Ht8nGIWH_nQ" alt="Temp Symbol" style="width:auto; padding-right: 60px; padding-left: 60px; padding-top: 50px;">
         <div class="text-block">
             <h2>Water Temperature: {{ current_amount }}&#8451;</h2>
         </div>
@@ -60,5 +91,20 @@
         <img src="data:image/png;base64,{{ data }}" alt="" style="float: right">
         <!--<canvas id="myChart" width="680" height="480"></canvas>-->
     </div>
+    <!--<script>
+        let myChart = document.getElementById('myChart').getContext('2d');
+
+        let lineChart = new Chart(myChart,{
+            type:'line',
+            data:{
+                labels: "{{ time }}",
+                datasets:[{
+                    label:"Water Temperature (*C)",
+                    data: "{{ history }}"
+                }]
+            },
+            options:{}
+        });
+    </script>-->
     </body>
 </html>

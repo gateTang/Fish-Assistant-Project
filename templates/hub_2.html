@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Hub - Fish Assistant</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+/*Interactive Container*/
+    .container{
+        position: relative;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        background: white;
+        text-align: center;
+        border-style: solid;
+        border-color: black;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease-in-out;
+        padding: 10px;
+    }
+    .container::after{
+        content: '';
+        position: absolute;
+        z-index: -1;
+        width: auto;
+        height: auto;
+        opacity: 0;
+        border-radius: 5px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: opacity 0.3s ease-in-out;
+    }
+    .container:hover{
+        transform: scale(1.05, 1.05);
+        background-color:rgb(197, 197, 197);
+    }
+    .container:hover::after{
+        opacity: 1;
+    }
+    .text-block{
+        position:relative;
+        display: block;
+        background-color: transparent;
+        color: black;
+        padding: 10%;
+    }
+/*Top Navigation Bar*/
+    .topnav{
+        overflow: hidden;
+        position: absolute;
+        background-color: rgb(167, 215, 247);
+    }
+    .topnav a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+    .topnav a:hover {
+        background-color: #ddd;
+    }
+    .topnav a.active {
+        background-color: rgb(40, 205, 255);
+        color: white;
+    }
+</style>
+</head>
+<body>
+<!--Top Navigation Bar-->
+<div class="topnav" style="margin:0">
+    <a class="active" href="/">Hub</a>
+    <a href="graph">Graph</a>
+    <a href="feed">Feed</a>
+    <a href="water">Water</a>
+</div style="overflow: hidden;">
+<div style="text-align: center; padding-left: auto; padding-right: auto;"><!--Not Sure; edit more-->
+<form action="https://fish-assisstant.herokuapp.com/">
+<br><br><br><button class="container" style="float: left; margin:50px; width: auto; background-color:rgb(129, 224, 253);">
+    <img src="https://drive.google.com/uc?export=view&id=1LZHvREOSo78R1OVHPZysi35Um_XyhK6s" alt="Hub" style="width:150px; height:100px; padding: 5%; padding-top: 20px;">
+    <div class="text-block">
+        <h2><b>Hub</b></h2>
+    </div>
+</form>
+</button>
+<form action="https://fish-assisstant.herokuapp.com/graph">
+    <button class="container" style="float: left; margin:50px; width: auto;background-color:rgb(131, 250, 190);">
+        <img src="https://drive.google.com/uc?export=view&id=1oDN71l6PBiJf2eVwkscLN_lJ99tMODAn" alt="Graph" style="width:150px; height:100px; padding: 5%; padding-top: 20px; object-fit: contain;">
+        <div class="text-block">
+            <h2><b>Graph</b></h2>
+        </div>
+    </form>
+</button>
+<form action="https://fish-assisstant.herokuapp.com/feed">
+    <button class="container" style="float: left; margin:50px; width: auto;background-color:rgb(253, 210, 129);">
+        <img src="https://drive.google.com/uc?export=view&id=1gip61i_fWJwjJ8HBOomqgHjWt7I_Yj-H" alt="Feed" style="width:150px; height:100px; padding: 5%; padding-top: 20px;object-fit: contain;">
+        <div class="text-block">
+            <h2><b>Feed</b></h2>
+        </div>
+    </form>
+</button>
+<form action="https://fish-assisstant.herokuapp.com/water">
+    <button class="container" style="float: left; margin:50px; width: auto;background-color:rgb(138, 102, 100);">
+        <img src="https://drive.google.com/uc?export=view&id=1HKl7A-b0t8p_9O0UHIZg1g5ixvBPz32Y" alt="Water" style="width:150px; height:100px; padding: 5%; padding-top: 20px;object-fit: contain;">
+        <div class="text-block">
+            <h2><b>Water</b></h2>
+        </div>
+    </form>
+</button>
+</div>
+
