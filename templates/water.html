@@ -23,7 +23,6 @@
         border-color: black;
         border-radius: 5px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        cursor: pointer;
         transition: all 0.3s ease-in-out;
         padding: 10px;
     }
@@ -73,6 +72,66 @@
         background-color: rgb(40, 205, 255);
         color: white;
     }
+/*Toggle Switch*/
+    .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    }
+
+    .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    input:checked + .slider {
+    background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
 </style>
 </head>
 <body>
@@ -81,47 +140,26 @@
     <a href="/"><img src="https://drive.google.com/uc?export=view&id=1kXGJdQfgrVnhRN_5bRhfXc3XPkjlE4g9"></a>
 </div>
 <div class="topnav" style="margin:0; position: relative; display: inline-block">
-    <a class="active" href="/">Hub</a>
+    <a href="/">Hub</a>
     <a href="graph">Graph</a>
     <a href="feed">Feed</a>
-    <a href="water">Water</a>
+    <a class="active" href="/water">Water</a>
 </div style="overflow: hidden;">
-<div style="text-align: center; padding-left: auto; padding-right: auto;"><!--Not Sure; edit more-->
-<form action="https://fish-assisstant.herokuapp.com/">
-<button class="container" style="float: left; margin:50px; width: auto; background-color:rgb(129, 224, 253);">
-    <img src="https://drive.google.com/uc?export=view&id=1LZHvREOSo78R1OVHPZysi35Um_XyhK6s" alt="Hub" style="width:150px; height:100px; padding: 5%; padding-top: 20px;">
-    <div class="text-block">
-        <h2><b>Hub</b></h2>
-        <h6>Home</h6>
-    </div>
-</form>
-</button>
-<form action="https://fish-assisstant.herokuapp.com/graph">
-    <button class="container" style="float: left; margin:50px; width: auto;background-color:rgb(131, 250, 190);">
-        <img src="https://drive.google.com/uc?export=view&id=1oDN71l6PBiJf2eVwkscLN_lJ99tMODAn" alt="Graph" style="width:150px; height:100px; padding: 5%; padding-top: 20px; object-fit: contain;">
-        <div class="text-block">
-            <h2><b>Graph</b></h2>
-            <h6>Too Warm?</h6>
-        </div>
-    </form>
-</button>
-<form action="https://fish-assisstant.herokuapp.com/feed">
-    <button class="container" style="float: left; margin:50px; width: auto;background-color:rgb(253, 210, 129);">
-        <img src="https://drive.google.com/uc?export=view&id=1gip61i_fWJwjJ8HBOomqgHjWt7I_Yj-H" alt="Feed" style="width:150px; height:100px; padding: 5%; padding-top: 20px;object-fit: contain;">
-        <div class="text-block">
-            <h2><b>Feed</b></h2>
-            <h6>Fish Time!</h6>
-        </div>
-    </form>
-</button>
-<form action="https://fish-assisstant.herokuapp.com/water">
-    <button class="container" style="float: left; margin:50px; width: auto;background-color:rgb(106, 128, 255);">
-        <img src="https://drive.google.com/uc?export=view&id=1HKl7A-b0t8p_9O0UHIZg1g5ixvBPz32Y" alt="Water" style="width:150px; height:100px; padding: 5%; padding-top: 20px;object-fit: contain;">
-        <div class="text-block">
-            <h2><b>Water</b></h2>
-            <h6>Change Water?</h6>
-        </div>
-    </form>
-</button>
+<div class="container" style="width:35%; margin:40px">
+    <form method = "POST">
+        <h3><b>Water OFF/ON</b></h3>
+        <label class="switch">
+            <input type = "checkbox" name="waterState" id="waterState" style="margin-top: 10px;" value="ON">
+            <span class="slider round"></span>
+        </label>
+        <br><input type = "submit" style="margin-top: 10px; margin-bottom:10px; background-color: rgb(40, 205, 255); border-radius: 2px; border-color: black; cursor: pointer;">
+    </form> 
 </div>
-
+<div class="container" style="float: left; margin-left: 40px;background-color:rgb(253, 210, 129);">
+    <img src="https://drive.google.com/uc?export=view&id=13BUlSlRZMehH3GjtO23tESnXj0Legu7S" alt="Temp Symbol" style="width:auto; padding-right: 60px; padding-left: 60px; padding-top: 50px;position:relative;">
+    <div class="text-block">
+        <h2>Water State: <b>{{waterState}}</b></h2>
+        <h4>(Latest Water Session)</h4>
+    </div>
+</div>
+</html>

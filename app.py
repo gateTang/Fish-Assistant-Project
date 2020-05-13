@@ -12,6 +12,7 @@ import urllib, base64
 import requests
 import matplotlib
 import matplotlib.pyplot as plt
+import cgi
 
 matplotlib.use('Agg')
 
@@ -115,37 +116,39 @@ def graph():
 
     return render_template("home.html",data=url,current_amount=current_amount,history=dataarray,time=thislist,xy=xy)
 
+@app.route('/feed')
+def index():
+    return render_template("feed.html")
 @app.route('/feed', methods = ['POST', 'GET'])
 def feed():
     if request.method == 'POST':
-        amount = request.form.get('amount')
-        mqtt.publish('gate.tang@gmail.com/food', payload = amount, qos=0, retain=False)
-        print(amount) # for debugging
-        return '''<h1>Submitted Form: amount is {} gram(s).</h>
-        <form>
-        <button formaction="https://fish-assisstant.herokuapp.com/feed">Feed More!</button>
-        </form>'''. format(amount)
+        weight = request.form.get('amount')
+        mqtt.publish('gate.tang@gmail.com/food', payload = weight, qos=0, retain=False)
+        print(weight) # for debugging
+        return render_template("feed.html", weight=weight)
 
-    return '''<form method = "POST">
-    Amount (g): <input type = "number" name="amount">
-    <input type = "submit">
-    </form> '''
+@app.route('/water')
+def waterIndex():
+    return render_template("water.html")
 
 @app.route('/water', methods = ['POST', 'GET'])
 def water():
     if request.method == 'POST':
         waterState = request.form.get('waterState')
         mqtt.publish('gate.tang@gmail.com/water', payload = waterState, qos=0, retain=False)
+        if waterState == None:
+            waterState="OFF"
         print(waterState) # for debugging
-        return '''<h1>Submitted Form {} | (0 means NO; 1 means YES).</h>
-        <form>
-        <button formaction="https://fish-assisstant.herokuapp.com/water">Change?</button>
-        </form>'''. format(waterState)
+        return render_template("water.html", waterState=waterState)
+        #return '''<h1>Submitted Form {} | (0 means NO; 1 means YES).</h>
+        #<form>
+        #<button formaction="https://fish-assisstant.herokuapp.com/water">Change?</button>
+        #</form>'''. format(waterState)
 
-    return '''<form method = "POST">
-    Water (0 means NO; 1 means YES)? <input type = "range" name="waterState" min="0" max="1">
-    <input type = "submit">
-    </form> '''
+    #return '''<form method = "POST">
+    #Water (0 means NO; 1 means YES)? <input type = "range" name="waterState" min="0" max="1">
+    #<input type = "submit">
+    #</form> '''
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
