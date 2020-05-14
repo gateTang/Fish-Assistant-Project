@@ -3,6 +3,9 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            body {
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            }
             .container{
                 position: relative;
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -11,7 +14,7 @@
                 border-style: solid;
                 border-color: black;
                 border-radius: 5px;
-                margin: 30px;
+                margin: 50px;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
                 transition: all 0.3s ease-in-out;
             }
@@ -75,7 +78,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     </head>
     <body>
-    <div class="topnav">
+    <!--Top Navigation Bar-->
+    <div class="topnav" style="margin:0; background-color:rgb(188, 228, 255) ; width: auto; position: static;">
+        <a href="/"><img src="https://drive.google.com/uc?export=view&id=11xg94vZeDMtZBKbCVroPjzjs6e0Znzqj"></a>
+    </div>
+    <div class="topnav" style="margin:0; position: relative; display: inline-block">
         <a href="/">Hub</a>
         <a class="active"href="graph">Graph</a>
         <a href="feed">Feed</a>
