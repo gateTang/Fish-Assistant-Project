@@ -78,7 +78,7 @@ def handle_mqtt_message(client, userdata, message):
 
     return render_template("home.html",thislist=thislist)
 
-@app.route('/graph', methods=['GET'])
+@app.route('/graph', methods=['POST','GET'])
 def graph():
     response = requests.get("https://fish-assisstant.herokuapp.com/readdata")
     data = response.json()
@@ -112,8 +112,17 @@ def graph():
     
     Dict = { i : dataarray[i] for i in range(0, len(dataarray) ) }
     xy=Dict.items()
+    reset_response = "RESET Attempted"
+    if request.method == 'POST':
+        reset = str(request.form.get('reset'))
+        print (reset)
+        if reset == 'RESET':
+            doc_ref.set({})
+            reset_response = "RESET Attempted"
+        if reset != 'RESET':
+            reset_response = "RESET Attempted"
 
-    return render_template("home.html",data=url,current_amount=current_amount,history=dataarray,time=thislist,xy=xy)
+    return render_template("home.html",data=url,current_amount=current_amount,history=dataarray,time=thislist,xy=xy,reset_response=reset_response)
 
 @app.route('/feed')
 def index():
