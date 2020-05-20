@@ -132,20 +132,41 @@
         <div class="text-block">
             <h2>Water Temperature: {{ current_amount }}&#8451;</h2>
         </div>
-            <button id="resetBtn" class="container" style="padding:2%">Reset</button>
-            <div id="myModal" class="modal">
-
-                <!-- Modal content -->
-                <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Type <b>'RESET'</b> to permanently clean data</p>
-                <form method="POST">
-                    <br><input type="text" name="reset">
-                <input type="submit" onclick="alert('{{ reset_response }}')">
-                </form>
-                </div>
-          </div>
         </div>
+            
+    
+    <div class="graph" style="float: right">
+        <img src="data:image/png;base64,{{ data }}" alt="" style="float: right">
+        <!--<canvas id="myChart" width="680" height="480"></canvas>-->
+    </div>
+    <!--<script>
+        let myChart = document.getElementById('myChart').getContext('2d');
+
+        let lineChart = new Chart(myChart,{
+            type:'line',
+            data:{
+                labels: "{{ time }}",
+                datasets:[{
+                    label:"Water Temperature (*C)",
+                    data: "{{ history }}"
+                }]
+            },
+            options:{}
+        });
+    </script>-->
+    <button id="resetBtn" class="container" style="padding:1%; float: right; text-align: right; position: sticky; bottom:0;right:0; overflow:auto">Reset</button>
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Type <b>'RESET'</b> to permanently clean data</p>
+            <form method="POST">
+                <br><input type="text" name="reset">
+            <input type="submit" onclick="alert('{{ reset_response }}')">
+            </form>
+            </div>
+      </div>
           <script>
             // Get the modal
             var modal = document.getElementById("myModal");
@@ -173,26 +194,5 @@
               }
             }
             </script>
-            
-    
-    <div class="graph" style="float: right">
-        <img src="data:image/png;base64,{{ data }}" alt="" style="float: right">
-        <!--<canvas id="myChart" width="680" height="480"></canvas>-->
-    </div>
-    <!--<script>
-        let myChart = document.getElementById('myChart').getContext('2d');
-
-        let lineChart = new Chart(myChart,{
-            type:'line',
-            data:{
-                labels: "{{ time }}",
-                datasets:[{
-                    label:"Water Temperature (*C)",
-                    data: "{{ history }}"
-                }]
-            },
-            options:{}
-        });
-    </script>-->
     </body>
 </html>
